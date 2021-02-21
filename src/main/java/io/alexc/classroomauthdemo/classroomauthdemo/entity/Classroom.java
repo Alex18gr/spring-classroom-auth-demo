@@ -15,9 +15,6 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "classrooms")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="_id")
 public class Classroom {
 
@@ -33,4 +30,27 @@ public class Classroom {
     @JsonManagedReference
     private Collection<Student> students;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Collection<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Collection<Student> students) {
+        this.students = students;
+    }
 }

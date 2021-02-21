@@ -3,6 +3,7 @@ package io.alexc.classroomauthdemo.classroomauthdemo.repository;
 
 import io.alexc.classroomauthdemo.classroomauthdemo.entity.Classroom;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,5 +27,4 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
     @Override
     Optional<Classroom> findById(Integer integer);
 
-    List<Classroom> findAllByIdStartingWith(Integer id);
 }
