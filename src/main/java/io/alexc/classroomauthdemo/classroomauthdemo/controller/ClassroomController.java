@@ -2,10 +2,6 @@ package io.alexc.classroomauthdemo.classroomauthdemo.controller;
 
 import io.alexc.classroomauthdemo.classroomauthdemo.dto.ClassroomDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.dto.StudentDto;
-import io.alexc.classroomauthdemo.classroomauthdemo.entity.Classroom;
-import io.alexc.classroomauthdemo.classroomauthdemo.entity.Student;
-import io.alexc.classroomauthdemo.classroomauthdemo.error.ClassroomNotFoundException;
-import io.alexc.classroomauthdemo.classroomauthdemo.error.StudentNotFoundException;
 import io.alexc.classroomauthdemo.classroomauthdemo.service.ClassroomManageService;
 import io.alexc.classroomauthdemo.classroomauthdemo.service.ClassroomService;
 import io.alexc.classroomauthdemo.classroomauthdemo.service.StudentService;
@@ -13,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("classrooms")

@@ -1,8 +1,6 @@
 package io.alexc.classroomauthdemo.classroomauthdemo.service;
 
 import io.alexc.classroomauthdemo.classroomauthdemo.dto.StudentDto;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
 

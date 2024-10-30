@@ -5,39 +5,35 @@ import io.alexc.classroomauthdemo.classroomauthdemo.dto.StudentDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.entity.Classroom;
 import io.alexc.classroomauthdemo.classroomauthdemo.entity.Student;
 import io.alexc.classroomauthdemo.classroomauthdemo.error.ClassroomNotFoundException;
+import io.alexc.classroomauthdemo.classroomauthdemo.mapper.ClassroomMapper;
+import io.alexc.classroomauthdemo.classroomauthdemo.mapper.StudentMapper;
 import io.alexc.classroomauthdemo.classroomauthdemo.repository.ClassroomRepository;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ClassroomServiceImpl implements ClassroomService {
 
     private final ClassroomRepository classroomRepository;
-
-    private final ModelMapper modelMapper;
-
-    public ClassroomServiceImpl(ClassroomRepository classroomRepository, ModelMapper modelMapper) {
-        this.classroomRepository = classroomRepository;
-        this.modelMapper = modelMapper;
-    }
+    private final ClassroomMapper classroomMapper;
+    private final StudentMapper studentMapper;
 
     @Override
     public List<ClassroomDto> findAllClassrooms() {
-        return this.classroomRepository.findAll().stream()
-                .map(this::convertClassroomToDto)
-                .collect(Collectors.toList());
+        return classroomMapper.classroomsToClassroomDtos(this.classroomRepository.findAll());
     }
 
     @Override
     public ClassroomDto saveClassroom(ClassroomDto classroomDto) {
-        return this.modelMapper
-                .map(this.classroomRepository.save(this.modelMapper
-                        .map(classroomDto, Classroom.class)), ClassroomDto.class);
+        return classroomMapper.classroomToClassroomDto(
+                classroomRepository.save(
+                        classroomMapper.classroomDtoToClassroom(classroomDto)
+                )
+        );
     }
 
     @Override
@@ -45,9 +41,9 @@ public class ClassroomServiceImpl implements ClassroomService {
         return this.classroomRepository.findById(id)
                 .map(c -> {
                     c.setName(classroomDto.getName());
-                    c.setStudents(classroomDto.getStudents().stream().map(this::convertStudentToEntity).collect(Collectors.toList()));
+                    c.setStudents(studentMapper.studentDtosToStudents(classroomDto.getStudents()));
                     c.setId(id);
-                    return this.convertClassroomToDto(this.classroomRepository.save(c));
+                    return classroomMapper.classroomToClassroomDto(this.classroomRepository.save(c));
                 })
                 .orElseThrow(() -> new ClassroomNotFoundException(id));
     }
@@ -69,17 +65,10 @@ public class ClassroomServiceImpl implements ClassroomService {
 
     @Override
     public ClassroomDto getClassroom(Integer id) {
-        return this.modelMapper.map(this.classroomRepository.findById(id)
-                .orElseThrow(() -> new ClassroomNotFoundException(id)), ClassroomDto.class);
+        return classroomMapper.classroomToClassroomDto(
+                this.classroomRepository.findById(id)
+                        .orElseThrow(() -> new ClassroomNotFoundException(id))
+        );
     }
 
-    private ClassroomDto convertClassroomToDto(Classroom classroom) {
-        ClassroomDto classroomDto = modelMapper.map(classroom, ClassroomDto.class);
-        return classroomDto;
-    }
-
-
-    private Student convertStudentToEntity(StudentDto studentDto) {
-        return modelMapper.map(studentDto, Student.class);
-    }
 }

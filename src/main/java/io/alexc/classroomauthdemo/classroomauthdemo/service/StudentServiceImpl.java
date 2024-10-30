@@ -5,29 +5,27 @@ import io.alexc.classroomauthdemo.classroomauthdemo.dto.StudentDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.entity.Classroom;
 import io.alexc.classroomauthdemo.classroomauthdemo.entity.Student;
 import io.alexc.classroomauthdemo.classroomauthdemo.error.StudentNotFoundException;
+import io.alexc.classroomauthdemo.classroomauthdemo.mapper.ClassroomMapper;
+import io.alexc.classroomauthdemo.classroomauthdemo.mapper.StudentMapper;
+import io.alexc.classroomauthdemo.classroomauthdemo.repository.ClassroomRepository;
 import io.alexc.classroomauthdemo.classroomauthdemo.repository.StudentRepository;
-import org.modelmapper.ModelMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
-
-    private final ModelMapper modelMapper;
-
-    public StudentServiceImpl(StudentRepository studentRepository, ModelMapper modelMapper) {
-        this.studentRepository = studentRepository;
-        this.modelMapper = modelMapper;
-    }
+    private final ClassroomMapper classroomMapper;
+    private final StudentMapper studentMapper;
 
     @Override
     public StudentDto saveStudent(StudentDto studentDto) {
-        Student student = this.convertStudentToEntity(studentDto);
-        return this.convertStudentToDto(this.studentRepository.save(student));
+        return studentMapper.studentToStudentDto(studentRepository.save(studentMapper.studentDtoToStudent(studentDto)));
     }
 
     @Override
@@ -43,38 +41,28 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentDto getStudent(int id) {
-        return this.modelMapper.map(this.studentRepository.findById(id)
-                .orElseThrow(() -> new StudentNotFoundException(id)), StudentDto.class);
+        return studentMapper.studentToStudentDto(this.studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException(id)));
     }
 
     @Override
     public StudentDto findStudentByIdAndClassroomId(int classroomId, int studentId) {
-        Student student = this.studentRepository.findByClassroom_IdAndId(classroomId, studentId).orElseThrow(() -> new StudentNotFoundException(studentId));
-        return this.convertStudentToDto(student);
+        return studentMapper.studentToStudentDto(
+                this.studentRepository.findByClassroom_IdAndId(classroomId, studentId)
+                        .orElseThrow(() -> new StudentNotFoundException(studentId))
+        );
     }
 
     @Override
     public List<StudentDto> getAllStudents() {
-        return this.studentRepository.findAll().stream().map(this::convertStudentToDto).collect(Collectors.toList());
+        return studentMapper.studentsToStudentDtos(this.studentRepository.findAll());
     }
 
     @Override
     public ClassroomDto getStudentClassroom(Integer id) {
         Student student = this.studentRepository.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException(id));
-        return this.modelMapper.map(student.getClassroom(), ClassroomDto.class);
-    }
-
-    private Classroom convertClassroomToEntity(ClassroomDto classroomDto) {
-        return modelMapper.map(classroomDto, Classroom.class);
-    }
-
-    private StudentDto convertStudentToDto(Student student) {
-        StudentDto studentDto = modelMapper.map(student, StudentDto.class);
-        return studentDto;
-    }
-    private Student convertStudentToEntity(StudentDto studentDto) {
-        return modelMapper.map(studentDto, Student.class);
+        return classroomMapper.classroomToClassroomDto(student.getClassroom());
     }
 
 
