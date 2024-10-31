@@ -24,12 +24,12 @@ public class StudentController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public StudentDto getStudent(@PathVariable Integer id) {
+    public StudentDto getStudent(@PathVariable Long id) {
         return this.studentService.getStudent(id);
     }
 
     @RequestMapping(value = "{id}/classroom", method = RequestMethod.GET)
-    public ClassroomDto getStudentClassroom(@PathVariable Integer id) {
+    public ClassroomDto getStudentClassroom(@PathVariable Long id) {
         return this.studentService.getStudentClassroom(id);
     }
 }

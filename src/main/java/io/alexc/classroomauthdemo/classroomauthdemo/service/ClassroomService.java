@@ -12,12 +12,12 @@ public interface ClassroomService {
 
     ClassroomDto saveClassroom(ClassroomDto classroomDto);
 
-    ClassroomDto updateClassroom(Integer id, ClassroomDto classroomDto);
+    ClassroomDto updateClassroom(Long id, ClassroomDto classroomDto);
 
     void deleteClassroom(ClassroomDto classroomDto);
 
-    void deleteClassroomById(int id);
+    void deleteClassroomById(Long id);
 
-    ClassroomDto getClassroom(Integer id);
+    ClassroomDto getClassroom(Long id);
 
 }

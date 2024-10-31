@@ -37,7 +37,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     }
 
     @Override
-    public ClassroomDto updateClassroom(Integer id, ClassroomDto classroomDto) {
+    public ClassroomDto updateClassroom(Long id, ClassroomDto classroomDto) {
         return this.classroomRepository.findById(id)
                 .map(c -> {
                     c.setName(classroomDto.getName());
@@ -55,7 +55,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     }
 
     @Override
-    public void deleteClassroomById(int id) {
+    public void deleteClassroomById(Long id) {
         if (this.classroomRepository.existsById(id)) {
             this.classroomRepository.deleteById(id);
         } else {
@@ -64,7 +64,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     }
 
     @Override
-    public ClassroomDto getClassroom(Integer id) {
+    public ClassroomDto getClassroom(Long id) {
         return classroomMapper.classroomToClassroomDto(
                 this.classroomRepository.findById(id)
                         .orElseThrow(() -> new ClassroomNotFoundException(id))

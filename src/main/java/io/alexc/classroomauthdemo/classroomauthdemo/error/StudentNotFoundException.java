@@ -6,11 +6,11 @@ public class StudentNotFoundException extends RuntimeException {
         super();
     }
 
-    public StudentNotFoundException(Integer id) {
+    public StudentNotFoundException(Long id) {
         super("Student with id = " + id + " not found.");
     }
 
-    public StudentNotFoundException(Integer id, Integer classroomId) {
+    public StudentNotFoundException(Long id, Long classroomId) {
         super("Student with id = " + id + " not found in classroom with id = " + classroomId);
     }
 

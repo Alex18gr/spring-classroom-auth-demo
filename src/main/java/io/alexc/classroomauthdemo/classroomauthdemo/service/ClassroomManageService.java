@@ -6,13 +6,13 @@ import java.util.Collection;
 
 public interface ClassroomManageService {
 
-    Collection<StudentDto> getClassroomStudents(Integer classroomId);
+    Collection<StudentDto> getClassroomStudents(Long classroomId);
 
-    StudentDto saveClassroomStudent(Integer classroomId, StudentDto studentDto);
+    StudentDto saveClassroomStudent(Long classroomId, StudentDto studentDto);
 
-    StudentDto getClassroomStudent(Integer classroomId, Integer studentId);
+    StudentDto getClassroomStudent(Long classroomId, Long studentId);
 
-    StudentDto updateClassroomStudent(Integer classroomId, Integer studentId, StudentDto studentDto);
+    StudentDto updateClassroomStudent(Long classroomId, Long studentId, StudentDto studentDto);
 
-    void deleteClassroomStudent(Integer classroomId, Integer studentId);
+    void deleteClassroomStudent(Long classroomId, Long studentId);
 }

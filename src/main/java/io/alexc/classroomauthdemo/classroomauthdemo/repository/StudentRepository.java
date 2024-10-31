@@ -9,22 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Integer> {
+public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    @Override
-    List<Student> findAll();
 
-    @Override
-    <S extends Student> S save(S student);
-
-    @Override
-    void delete(Student student);
-
-    @Override
-    void deleteById(Integer id);
-
-    @Override
-    Optional<Student> findById(Integer id);
-
-    Optional<Student> findByClassroom_IdAndId(int classroom_id, int id);
+    Optional<Student> findByClassroom_IdAndId(Long classroom_id, Long id);
 }

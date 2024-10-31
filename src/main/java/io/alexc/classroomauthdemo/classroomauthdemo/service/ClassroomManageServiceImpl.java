@@ -1,12 +1,10 @@
 package io.alexc.classroomauthdemo.classroomauthdemo.service;
 
-import io.alexc.classroomauthdemo.classroomauthdemo.dto.ClassroomDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.dto.StudentDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.entity.Classroom;
 import io.alexc.classroomauthdemo.classroomauthdemo.entity.Student;
 import io.alexc.classroomauthdemo.classroomauthdemo.error.ClassroomNotFoundException;
 import io.alexc.classroomauthdemo.classroomauthdemo.error.StudentNotFoundException;
-import io.alexc.classroomauthdemo.classroomauthdemo.mapper.ClassroomMapper;
 import io.alexc.classroomauthdemo.classroomauthdemo.mapper.StudentMapper;
 import io.alexc.classroomauthdemo.classroomauthdemo.repository.ClassroomRepository;
 import io.alexc.classroomauthdemo.classroomauthdemo.repository.StudentRepository;
@@ -20,15 +18,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClassroomManageServiceImpl implements ClassroomManageService {
 
-    private final ClassroomService classroomService;
-    private final StudentService studentService;
     private final ClassroomRepository classroomRepository;
     private final StudentRepository studentRepository;
-    private final ClassroomMapper classroomMapper;
     private final StudentMapper studentMapper;
 
     @Override
-    public Collection<StudentDto> getClassroomStudents(Integer classroomId) {
+    public Collection<StudentDto> getClassroomStudents(Long classroomId) {
         Classroom classroom = this.classroomRepository.findById(classroomId)
                 .orElseThrow(() -> new ClassroomNotFoundException(classroomId));
         return classroom.getStudents().stream()
@@ -37,7 +32,7 @@ public class ClassroomManageServiceImpl implements ClassroomManageService {
     }
 
     @Override
-    public StudentDto saveClassroomStudent(Integer classroomId, StudentDto studentDto) {
+    public StudentDto saveClassroomStudent(Long classroomId, StudentDto studentDto) {
         Classroom classroom = this.classroomRepository.findById(classroomId)
                 .orElseThrow(() -> new ClassroomNotFoundException(classroomId));
         Student student = studentMapper.studentDtoToStudent(studentDto);
@@ -46,13 +41,13 @@ public class ClassroomManageServiceImpl implements ClassroomManageService {
     }
 
     @Override
-    public StudentDto getClassroomStudent(Integer classroomId, Integer studentId) {
+    public StudentDto getClassroomStudent(Long classroomId, Long studentId) {
         return studentMapper.studentToStudentDto(this.studentRepository.findByClassroom_IdAndId(classroomId, studentId)
                 .orElseThrow(() -> new StudentNotFoundException(studentId, classroomId)));
     }
 
     @Override
-    public StudentDto updateClassroomStudent(Integer classroomId, Integer studentId, StudentDto studentDto) {
+    public StudentDto updateClassroomStudent(Long classroomId, Long studentId, StudentDto studentDto) {
         Classroom classroom = this.classroomRepository.findById(classroomId)
                 .orElseThrow(() -> new ClassroomNotFoundException(classroomId));
         Student student = studentMapper.studentDtoToStudent(studentDto);
@@ -70,7 +65,7 @@ public class ClassroomManageServiceImpl implements ClassroomManageService {
     }
 
     @Override
-    public void deleteClassroomStudent(Integer classroomId, Integer studentId) {
+    public void deleteClassroomStudent(Long classroomId, Long studentId) {
         this.studentRepository.delete(this.studentRepository.findByClassroom_IdAndId(classroomId, studentId)
                 .orElseThrow(() -> new StudentNotFoundException(studentId, classroomId)));
     }

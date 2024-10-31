@@ -23,7 +23,7 @@ import java.io.IOException;
 public class StudentDto {
 
     @JsonProperty("id")
-    private Integer id;
+    private Long id;
     @JsonProperty("firstName")
     private String firstName;
     @JsonProperty("lastName")

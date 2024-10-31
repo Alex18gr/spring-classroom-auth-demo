@@ -35,18 +35,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public void deleteStudent(int id) {
+    public void deleteStudent(Long id) {
         this.studentRepository.deleteById(id);
     }
 
     @Override
-    public StudentDto getStudent(int id) {
+    public StudentDto getStudent(Long id) {
         return studentMapper.studentToStudentDto(this.studentRepository.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException(id)));
     }
 
     @Override
-    public StudentDto findStudentByIdAndClassroomId(int classroomId, int studentId) {
+    public StudentDto findStudentByIdAndClassroomId(Long classroomId, Long studentId) {
         return studentMapper.studentToStudentDto(
                 this.studentRepository.findByClassroom_IdAndId(classroomId, studentId)
                         .orElseThrow(() -> new StudentNotFoundException(studentId))
@@ -59,7 +59,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ClassroomDto getStudentClassroom(Integer id) {
+    public ClassroomDto getStudentClassroom(Long id) {
         Student student = this.studentRepository.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException(id));
         return classroomMapper.classroomToClassroomDto(student.getClassroom());

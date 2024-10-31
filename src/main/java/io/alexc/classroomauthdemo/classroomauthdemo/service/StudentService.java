@@ -13,14 +13,14 @@ public interface StudentService {
 
     void deleteStudent(StudentDto student);
 
-    void deleteStudent(int studentId);
+    void deleteStudent(Long studentId);
 
-    StudentDto getStudent(int id);
+    StudentDto getStudent(Long id);
 
-    StudentDto findStudentByIdAndClassroomId(int classroomId, int id);
+    StudentDto findStudentByIdAndClassroomId(Long classroomId, Long id);
 
     List<StudentDto> getAllStudents();
 
-    ClassroomDto getStudentClassroom(Integer id);
+    ClassroomDto getStudentClassroom(Long id);
 
 }

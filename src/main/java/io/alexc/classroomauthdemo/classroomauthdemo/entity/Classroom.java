@@ -14,20 +14,17 @@ import java.util.Collection;
  */
 @Entity
 @Getter @Setter
-@Table(name = "classrooms")
-@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="_id")
 public class Classroom {
 
     @Id
-    @Column(name = "classroom_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    @Column(name = "classroom_name")
     private String name;
 
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL)
-    @JsonManagedReference
     private Collection<Student> students;
 
+    @OneToOne
+    private Professor professorInCharge;
 }

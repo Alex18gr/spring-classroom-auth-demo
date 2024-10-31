@@ -6,7 +6,7 @@ public class ClassroomNotFoundException extends RuntimeException {
         super();
     }
 
-    public ClassroomNotFoundException(Integer id) {
+    public ClassroomNotFoundException(Long id) {
         super("Classroom with id = " + id + " not found.");
     }
 
