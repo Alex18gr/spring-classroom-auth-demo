@@ -1,5 +1,6 @@
 package io.alexc.classroomauthdemo.classroomauthdemo.configuration;
 
+import io.alexc.classroomauthdemo.classroomauthdemo.security.CustomLoginAuthenticationEntryPoint;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.password.HaveIBeenPwnedRestApiPasswordChecker;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -56,24 +58,32 @@ public class SecurityConfiguration {
                     }
                 }))
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(authz ->
+                .authorizeHttpRequests(requests ->
                         // prettier-ignore
-                        authz
+                        requests
+                                .requestMatchers("/api/authenticate").permitAll()
+                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/h2-console").permitAll()
                                 .requestMatchers("/myAccount").hasRole("USER")
                                 .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/myLoans").hasRole("USER")
                                 .requestMatchers("/myCards").hasRole("USER")
                                 .requestMatchers("/user").authenticated()
-                                .requestMatchers("/h2-console").permitAll()
                                 .requestMatchers("/notices", "/contact", "/error", "/register", "/invalidSession", "/apiLogin").permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(exceptions ->
                         exceptions
-                                .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                                .defaultAuthenticationEntryPointFor(new CustomLoginAuthenticationEntryPoint(), new AntPathRequestMatcher("/api/authenticate"))
+//                                .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                                 .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(withDefaults()));
+                .oauth2ResourceServer(oauth2 ->
+                        oauth2
+                                .jwt(withDefaults())
+                                .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+                );
         return http.build();
     }
 

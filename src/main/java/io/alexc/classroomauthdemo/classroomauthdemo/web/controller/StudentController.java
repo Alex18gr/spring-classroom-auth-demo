@@ -1,4 +1,4 @@
-package io.alexc.classroomauthdemo.classroomauthdemo.controller;
+package io.alexc.classroomauthdemo.classroomauthdemo.web.controller;
 
 import io.alexc.classroomauthdemo.classroomauthdemo.dto.ClassroomDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.dto.StudentDto;

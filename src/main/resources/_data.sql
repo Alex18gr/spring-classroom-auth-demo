@@ -39,10 +39,10 @@ VALUES ('alex', 'Tsih', 7.25, '1995-01-05', 1),
 
 
 
-INSERT INTO CLASS_USER (username, password, email, enabled, professor_id)
+INSERT INTO USER_DOMAIN (username, password, email, enabled, professor_id)
 VALUES ('alex18gr', '$2a$12$tHBvau..Bo39lV2MaYSIXOeBBOYAwSs3GCR/Sx.E.oLymrUEty7oS', 'alex@mail.com', 1, null),
        ('user1', '$2a$12$tHBvau..Bo39lV2MaYSIXOeBBOYAwSs3GCR/Sx.E.oLymrUEty7oS', 'user1@mail.com', 1, 1);
 
 INSERT INTO authority (user_id, authority)
-VALUES (1, 'ROLE_ADMIN'),
-       (2, 'ROLE_PROFESSOR');
+VALUES (1, 'ADMIN'),
+       (2, 'PROFESSOR');

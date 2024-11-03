@@ -1,11 +1,11 @@
 spring:
   datasource:
     url: jdbc:h2:mem:classStudentsDb
-    driver-class-name: org.h2.Driver
+    driver-class-name: # org.h2.Driver
     username: sa
     password: password
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: # org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
     hibernate:
       ddl-auto: update
@@ -19,4 +19,6 @@ server:
 properties:
   security:
     jwt:
-      base64-secret:
+      base64-secret: ""
+      token-validity-in-seconds: 0
+      token-validity-in-seconds-for-remember-me: 0

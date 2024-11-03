@@ -25,6 +25,6 @@ public class Classroom {
     @OneToMany(mappedBy = "classroom", cascade = CascadeType.ALL)
     private Collection<Student> students;
 
-    @OneToOne
+    @ManyToOne
     private Professor professorInCharge;
 }
