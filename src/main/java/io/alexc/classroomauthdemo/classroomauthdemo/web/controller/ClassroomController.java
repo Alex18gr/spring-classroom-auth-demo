@@ -4,29 +4,20 @@ import io.alexc.classroomauthdemo.classroomauthdemo.dto.ClassroomDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.dto.StudentDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.service.ClassroomManageService;
 import io.alexc.classroomauthdemo.classroomauthdemo.service.ClassroomService;
-import io.alexc.classroomauthdemo.classroomauthdemo.service.StudentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
 
 @RestController
-@RequestMapping("classrooms")
-// For fixing the CORS issues due to different domain with the front-end
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201"}, maxAge = 3600)
+@RequestMapping("/api/classrooms")
+@RequiredArgsConstructor
 public class ClassroomController {
 
     private final ClassroomService classroomService;
 
-    private final StudentService studentService;
-
     private final ClassroomManageService classroomManageService;
-
-    public ClassroomController(ClassroomService classroomService, StudentService studentService, ClassroomManageService classroomManageService) {
-        this.classroomService = classroomService;
-        this.studentService = studentService;
-        this.classroomManageService = classroomManageService;
-    }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<ClassroomDto> getClassrooms() {

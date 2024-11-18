@@ -3,20 +3,17 @@ package io.alexc.classroomauthdemo.classroomauthdemo.web.controller;
 import io.alexc.classroomauthdemo.classroomauthdemo.dto.ClassroomDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.dto.StudentDto;
 import io.alexc.classroomauthdemo.classroomauthdemo.service.StudentService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("students")
-@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4201"}, maxAge = 3600)
+@RequiredArgsConstructor
+@RequestMapping("/api/students")
 public class StudentController {
 
     private final StudentService studentService;
-
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<StudentDto> getStudents() {

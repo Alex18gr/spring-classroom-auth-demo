@@ -64,10 +64,6 @@ public class SecurityConfiguration {
                                 .requestMatchers("/api/authenticate").permitAll()
                                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/h2-console").permitAll()
-                                .requestMatchers("/myAccount").hasRole("USER")
-                                .requestMatchers("/myBalance").hasAnyRole("USER", "ADMIN")
-                                .requestMatchers("/myLoans").hasRole("USER")
-                                .requestMatchers("/myCards").hasRole("USER")
                                 .requestMatchers("/user").authenticated()
                                 .requestMatchers("/notices", "/contact", "/error", "/register", "/invalidSession", "/apiLogin").permitAll()
                 )
@@ -75,7 +71,6 @@ public class SecurityConfiguration {
                 .exceptionHandling(exceptions ->
                         exceptions
                                 .defaultAuthenticationEntryPointFor(new CustomLoginAuthenticationEntryPoint(), new AntPathRequestMatcher("/api/authenticate"))
-//                                .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
                                 .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
                 )
                 .oauth2ResourceServer(oauth2 ->
